@@ -5,12 +5,12 @@
     </a-layout-sider>
     <a-layout>
       <!-- <a-layout-header style="background: #fff; padding: 0" /> -->
-      <a-layout-content style="margin: 10px 16px">
+      <a-layout-content style="margin: 5px">
         <!-- <a-breadcrumb style="margin: 16px 0">
           <a-breadcrumb-item>User</a-breadcrumb-item>
           <a-breadcrumb-item>Bill</a-breadcrumb-item>
         </a-breadcrumb> -->
-        <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
+        <div :style="{ padding: '10px', background: '#fff', minHeight: '360px' }">
           <router-view></router-view>
         </div>
       </a-layout-content>
@@ -29,7 +29,7 @@ export default defineComponent({
 
   data () {
     return {
-      collapsed: ref(false),
+      collapsed: ref(true),
       selectedKeys: ref(['1'])
     }
   }
