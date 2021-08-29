@@ -1,7 +1,7 @@
 <!--
  * @Author: 鹿鸣
  * @Date: 2020-12-16 21:09:00
- * @LastEditTime: 2020-12-23 11:37:44
+ * @LastEditTime: 2021-08-29 01:39:05
  * @LastEditors: 鹿鸣
  * @Description: 配置化表格
 
@@ -10,7 +10,7 @@
 <!--
 使用示例:
 
-<VForm v-model="data" rules="rules" :label-width="100" />
+<VForm v-model="data" :rules="rules" :label-width="100" />
 
 rules配置说明:
 [
@@ -37,7 +37,7 @@ rules配置说明:
 ]
 -->
 <template>
-  <Form
+  <a-form
     v-if="initOk"
     ref="form"
     class="v-form"
@@ -48,17 +48,17 @@ rules配置说明:
     <div v-for="rule in rules" :key="rule.filed">
       <Render v-if="rule.ext && rule.ext.formItemTop" :render="rule.ext.formItemTop" />
       <VFormItem
-        v-model="data[rule.field]"
+        v-model:value="data[rule.field]"
         :conf="rule"
         @on-form-change="onFormChange"
       />
       <Render v-if="rule.ext && rule.ext.formItemBottom" :render="rule.ext.formItemBottom" />
     </div>
-  </Form>
+  </a-form>
 </template>
 
 <script>
-import { _ } from '@/utils'
+import _ from '@/utils/_.js'
 import VFormItem from './form-item'
 import Render from './render'
 
@@ -73,20 +73,21 @@ export default {
     rules: {
       type: Array,
       default: () => [
-      ],
+      ]
     }
   },
   computed: {
     data: {
-      get() {
+      get () {
         return this.value
       },
-      set(v) {
-        this.$emit('input', v)
-      }
+      set (v) {
+        this.$emit('update:value', v)
+      },
+      deep: true
     }
   },
-  data() {
+  data () {
     return {
       initOk: false,
       validateRules: {
@@ -94,6 +95,7 @@ export default {
           {
             required: true,
             trigger: 'blur',
+            message: '123'
           }
         ]
       }
@@ -101,11 +103,11 @@ export default {
   },
   watch: {
     rules: {
-      handler() {
-        console.log(['v-form-finally-rules:', this.rules]);
+      handler () {
+        console.log(['v-form-finally-rules:', this.rules])
 
         this.initOk = false
-        let validateRules = {}, data = {};
+        const validateRules = {}; const data = {}
 
         this.rules.forEach(rule => {
           // 复制value数据
@@ -127,22 +129,22 @@ export default {
         })
       },
       deep: true,
-      immediate: true,
+      immediate: true
     }
   },
   methods: {
     // child调用
-    onFormChange(...rest) {
+    onFormChange (...rest) {
       this.$emit('on-form-change', ...rest)
     },
-    resetFields(defData = {}) {
+    resetFields (defData = {}) {
       this.$refs.form.resetFields()
       this.data = Object.assign(this.data, defData)
     },
-    validate(callback) {
+    validate (callback) {
       this.$refs.form.validate(callback && callback)
     },
-    setValue(field, value) {
+    setValue (field, value) {
       let data = field
       if (typeof field !== 'object') {
         data = { [field]: value }

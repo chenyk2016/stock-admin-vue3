@@ -1,7 +1,7 @@
 <!--
  * @Author: 鹿鸣
  * @Date: 2020-12-19 20:26:48
- * @LastEditTime: 2020-12-21 13:08:17
+ * @LastEditTime: 2021-08-28 22:59:02
  * @LastEditors: 鹿鸣
  * @Description: date-picker的扩展
  * @功能点:
@@ -9,7 +9,6 @@
  ** 2. props: 'show-long-time' 展示长期按钮，长期日期为‘9999-00-00’
  **
 -->
-
 
 <template>
   <div class="v-date-picker">
@@ -47,21 +46,21 @@ export default {
     }
   },
   computed: {
-    isCheckedLongTime() {
+    isCheckedLongTime () {
       return this.value === longTime
     },
-    dateValue() {
+    dateValue () {
       if (this.isCheckedLongTime) {
         return ''
       }
       return this.value
-    },
+    }
   },
   methods: {
-    onChange(v) {
+    onChange (v) {
       this.$emit('input', v)
     },
-    longDate(v) {
+    longDate (v) {
       if (v) {
         this.$emit('input', longTime)
       } else {

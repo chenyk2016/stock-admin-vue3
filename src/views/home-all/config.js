@@ -40,6 +40,14 @@ const _columnsConf = {
   support_point: {
     type: 'textarea',
     width: '200px'
+  },
+  buy_grade: {
+    sorter: (a, b) => a.buy_grade - b.buy_grade
+    // defaultSortOrder: 'descend',
+  },
+  value_grade: {
+    sorter: (a, b) => a.value_grade - b.value_grade
+    // defaultSortOrder: 'descend',
   }
 }
 

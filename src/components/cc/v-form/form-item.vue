@@ -1,47 +1,42 @@
 <template>
-  <FormItem
+  <a-form-item
+    ref="formItem"
     v-bind="formItemProps"
-    @on-form-change="onFormChange"
   >
     <!-- ext.top -->
     <Render v-for="(render, index) in topRenders" :key="index" :render="render" />
 
     <template v-if="conf.type === 'RadioGroup'">
-      <RadioGroup v-model="modelValue" class="ims-radio" v-bind="itemProps">
-        <Radio
+      <a-radio-group v-model:value="modelValue" class="ims-radio" v-bind="itemProps">
+        <a-radio
           v-for="item in conf.data"
           :key="item.value"
-          :label="item.value"
+          :value="item.value"
         >
           {{ item.label }}
-        </Radio>
-      </RadioGroup>
+        </a-radio>
+      </a-radio-group>
     </template>
-    <!-- <template v-if="conf.type === 'ImgUpload'">
-      <div class="img-upload-mult">
-        <ImgUpload
-          v-model="modelValue"
-          v-bind="itemProps"
-          @on-preview="imgPreview"
-        />
-      </div>
-    </template> -->
     <template v-else>
       <component
         :is="conf.type"
-        v-model="modelValue"
+        v-model:value="modelValue"
         :style="style"
         v-bind="itemProps"
+        @blur="onBlur"
+        @change="onChange"
       />
     </template>
 
     <!-- ext.bottom -->
     <Render v-for="(render, index) in bottomRenders" :key="index" :render="render" />
-  </FormItem>
+  </a-form-item>
 </template>
 
 <script>
 import { _ } from '@/utils'
+
+// import FormItem from 'ant-design-vue/es/form/FormItem'
 // import ImgUpload from '~/components/img-upload';
 // import mixins from '~/mixins/emitter'
 import Render from './render'
@@ -78,15 +73,15 @@ export default {
       }
     }
   },
+  mounted () {
+  },
   computed: {
     modelValue: {
       get () {
-        // console.log('v-form-item get', this.value);
         return this.value
       },
       set (v) {
-        // console.log('v-form-item set', this.value);
-        this.$emit('input', v)
+        this.$emit('update:value', v)
       }
     },
     topRenders () {
@@ -117,7 +112,7 @@ export default {
       formItemProps: {
         label: '',
         // rules: [],
-        prop: ''
+        name: ''
       },
       // 表单组件的属性
       itemProps: {
@@ -135,7 +130,7 @@ export default {
         const itemProps = {}; const formItemProps = {}; let style = {}
 
         formItemProps.label = v.title
-        formItemProps.prop = v.field
+        formItemProps.name = v.field
 
         if (v.formItemProps) {
           Object.assign(formItemProps, v.formItemProps)
@@ -160,11 +155,13 @@ export default {
     }
   },
   methods: {
-    imgPreview (src) {
-      this.$mainStore.commit('imgPreview/showImgPreview', { src })
+    onBlur (v) {
+      // console.log('onBlur', v)
+      this.$refs.formItem.onFieldBlur()
     },
-    onFormChange (v) {
-      this.$emit('on-form-change', this.conf.field, v)
+    onChange (v) {
+      // console.log('onChange', v)
+      this.$refs.formItem.onFieldChange()
     }
   }
 }

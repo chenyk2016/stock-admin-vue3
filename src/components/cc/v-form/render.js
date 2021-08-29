@@ -1,7 +1,7 @@
 /*
  * @Author: 鹿鸣
  * @Date: 2020-12-21 17:06:08
- * @LastEditTime: 2020-12-22 20:29:58
+ * @LastEditTime: 2021-08-28 22:59:18
  * @LastEditors: 鹿鸣
  * @Description: vue render函数
  *
@@ -17,7 +17,7 @@ export default {
   props: {
     render: Function
   },
-  render(h) {
+  render (h) {
     return this.render(h, { vm: this, ...this.$attrs })
   }
-};
+}

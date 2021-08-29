@@ -1,13 +1,15 @@
 <template>
   <div class="home-page">
-    <AddButton class="add-btn" />
-    <div class="group" v-for="(item, idx) in groupData" :key="`group_${idx}`">
-      <div class="group-name">{{ item.group_id }}</div>
+    <div class="header">
+      <span>全部关注</span>
+      <AddButton class="add-btn" @on-success="getData" />
+    </div>
+    <div class="group">
       <div>
         <a-table
           rowKey="code"
           :columns="columns"
-          :data-source="item.data"
+          :data-source="groupData"
           bordered
           :pagination="false">
           <template v-for="col in editColumns" #[col]="{ text,record }" :key="`group_${idx}_${col}`">
@@ -51,7 +53,7 @@
 </template>
 
 <script>
-import AddButton from './add-button'
+import AddButton from '../home/add-button'
 import { reactive } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { columns, columnsName, columnsConf } from './config'
@@ -77,7 +79,7 @@ export default {
   },
   methods: {
     getData () {
-      window.$request.get('/self/group').then(res => {
+      window.$request.get('/self/all').then(res => {
         this.groupData = res.data
       })
     },
@@ -86,7 +88,6 @@ export default {
     },
     save (key, record) {
       const data = Object.assign(record, this.editableData[key])
-      console.log(data)
 
       window.$request.post('/self/group', data).then(res => {
         this.$message.success('提交成功')
@@ -104,9 +105,13 @@ export default {
 .home-page{
   position: relative;
 }
+.header{
+  position: relative;
+  height: 40px;
+}
 .add-btn{
   position: absolute;
-  top: 10px;
+  top: 0;
   right: 10px;
 }
 .group-name{
