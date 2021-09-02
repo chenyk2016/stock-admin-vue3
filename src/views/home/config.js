@@ -84,7 +84,6 @@ const formRules = columnsName.map((v) => {
     props: { // 传递给表单组件的属性
       placeholder: '请输入',
       style: {
-        width: '200px'
       }
     }
   }

@@ -25,8 +25,17 @@
               />
             </div>
             <template v-else>
+              <template v-if="col === 'short_name'">
+                <div>
+                  <MoreInfo :data="record">
+                    {{ text }}
+                  </MoreInfo>
+                </div>
+              </template>
+              <template v-else>
                 {{ text }}
               </template>
+            </template>
           </template>
           <template #operation="{ record }">
             <div class="editable-row-operations" :key="`group_${idx}_operation`">
@@ -57,11 +66,12 @@ import AddButton from '../home/add-button'
 import { reactive } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { columns, columnsName, columnsConf } from './config'
+import MoreInfo from './more-info'
 
 export default {
   name: 'Home',
   components: {
-    AddButton
+    AddButton, MoreInfo
   },
   data () {
     return {

@@ -32,7 +32,16 @@ const columnsName = [
   'update_dt'
 ]
 
-const _columnsConf = {
+const columnsNameMore = [
+  'current_situation',
+  'support_point',
+  'value_grade',
+  'buy_grade',
+  'price_around',
+  'trades'
+]
+
+const extColumnsConf = {
   current_situation: {
     type: 'textarea',
     width: '200px'
@@ -52,7 +61,7 @@ const _columnsConf = {
 }
 
 const columns = columnsName.map((v) => {
-  const obj = _columnsConf[v] || {}
+  const obj = extColumnsConf[v] || {}
 
   return {
     ...obj,
@@ -79,23 +88,27 @@ columns.push({
   fixed: 'right'
 })
 
-const formRules = columnsName.map((v) => {
-  const obj = _columnsConf[v] || {}
+function createRules (columnsName, extConf) {
+  return columnsName.map((v) => {
+    const obj = extConf[v] || {}
 
-  return {
-    ...obj,
-    type: obj.type ? `a-${obj.type}` : 'a-input', // 类型， 必填
-    title: v, // 名称， 必填
-    field: v, // 字段id，必填
-    validate: [ // 验证规则
-    ],
-    props: { // 传递给表单组件的属性
-      placeholder: '请输入',
-      style: {
-        width: '200px'
+    return {
+      ...obj,
+      type: obj.type ? `a-${obj.type}` : 'a-input', // 类型， 必填
+      title: v, // 名称， 必填
+      field: v, // 字段id，必填
+      validate: [ // 验证规则
+      ],
+      props: { // 传递给表单组件的属性
+        placeholder: '请输入',
+        style: {
+        }
       }
     }
-  }
-})
+  })
+}
 
-export { columns, columnsName, columnsConf, formRules }
+const formRules = createRules(columnsName, extColumnsConf)
+const formRulesMore = createRules(columnsNameMore, extColumnsConf)
+
+export { columns, columnsName, columnsConf, formRules, formRulesMore }

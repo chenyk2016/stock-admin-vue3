@@ -1,7 +1,7 @@
 <!--
  * @Author: 鹿鸣
  * @Date: 2020-12-16 21:09:00
- * @LastEditTime: 2021-08-29 01:39:05
+ * @LastEditTime: 2021-09-02 19:48:56
  * @LastEditors: 鹿鸣
  * @Description: 配置化表格
 
@@ -43,6 +43,8 @@ rules配置说明:
     class="v-form"
     :model="data"
     :rules="validateRules"
+    :label-col="{span: 6}"
+    :wrapper-col="{span: 14}"
     v-bind="$attrs"
   >
     <div v-for="rule in rules" :key="rule.filed">
