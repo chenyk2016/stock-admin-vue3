@@ -1,5 +1,5 @@
-/* eslint-disable no-prototype-builtins */
-// eslint-disable
+/* eslint-disable */
+
 // ===========================
 // 工具函数合集,参考underscore.js
 // list 列表（对象数组）;
@@ -380,9 +380,7 @@ _.objAllKeys = function (obj) {
   if (!_.isObject(obj)) return []
 
   const keys = []
-  /* eslint-disable */
   for (let key in obj) keys.push(key);
-  /* eslint-enable */
   return keys
 }
 
@@ -397,7 +395,6 @@ _.objPluck = function (obj, keys) {
   if (!_.isObject(obj)) return res
 
   for (const k in obj) {
-    // eslint-disable-next-line no-prototype-builtins
     if (obj.hasOwnProperty(k) && keys.indexOf(k) >= 0) {
       res[k] = _.deepCopy(obj[k])
     }
@@ -547,7 +544,7 @@ _.deepCopy = function (v) {
     for (let i = 0; i < v.length; i++) r.push(_.deepCopy(v[i]))
   } else {
     r = {}
-    // eslint-disable-next-line no-prototype-builtins
+
     for (const k in v) if (v.hasOwnProperty(k)) r[k] = _.deepCopy(v[k])
   }
 
@@ -569,10 +566,9 @@ _.deepAssign = function (target, ...sources) {
     if (targetIsObj && _.isObject(source)) {
       for (const k in source) {
         // 不包括继承属性
-        // eslint-disable-next-line no-prototype-builtins
+
         if (!source.hasOwnProperty(k)) continue
 
-        // eslint-disable-next-line no-prototype-builtins
         if (target.hasOwnProperty(k)) {
           target[k] = _.deepAssign(target[k], source[k])
         } else {

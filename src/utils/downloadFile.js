@@ -1,12 +1,13 @@
-import axios from 'axios';
+/* eslint-disable */
+import axios from 'axios'
 
 /**
  * 通过URL获取文件后缀
  * @param {*} url
  * @returns
  */
-export function getFileSuffix(url) {
-  const suffix = url.match(/\.[^\.]*$/);
+export function getFileSuffix (url) {
+  const suffix = url.match(/\.[^\.]*$/)
   return suffix && suffix[0]
 }
 
@@ -15,35 +16,35 @@ export function getFileSuffix(url) {
  * @param {通过} url
  * @returns
  */
-export function getFileTypeByUrl(url) {
+export function getFileTypeByUrl (url) {
   const types = [
     {
       type: 'image',
-      reg: /\.BMP|JPG|JPEG|PNG|GIF$/i,
+      reg: /\.BMP|JPG|JPEG|PNG|GIF$/i
     },
     {
       type: 'excel',
-      reg: /\.xlsx|xls|csv$/i,
+      reg: /\.xlsx|xls|csv$/i
     },
     {
       type: 'pdf',
-      reg: /\.pdf$/i,
+      reg: /\.pdf$/i
     },
     {
       type: 'word',
-      reg: /\.doc|docx$/i,
-    },
+      reg: /\.doc|docx$/i
+    }
   ]
-  let type = '';
+  let type = ''
 
   types.some(conf => {
     if (conf.reg.test(url)) {
-      type = conf.type;
-      return true;
+      type = conf.type
+      return true
     }
-  });
+  })
 
-  return type;
+  return type
 }
 
 /**
@@ -52,8 +53,7 @@ export function getFileTypeByUrl(url) {
  * @param {*} name
  * @returns
  */
-export function downloadImageAndPdf(url, name) {
-
+export function downloadImageAndPdf (url, name) {
   if (!getFileSuffix(name)) {
     name += '.' + getFileSuffix(url)
   }
@@ -61,17 +61,17 @@ export function downloadImageAndPdf(url, name) {
   return axios.get(url, {
     responseType: 'blob'
   })
-  .then(res => {
-    return res.data;
-  })
-  .then(data => {
-    const downloadUrl = window.URL.createObjectURL(data);
-    const anchor = document.createElement("a");
-    anchor.href = downloadUrl;
-    anchor.download = name;
-    anchor.click();
-    window.URL.revokeObjectURL(data);
-  });
+    .then(res => {
+      return res.data
+    })
+    .then(data => {
+      const downloadUrl = window.URL.createObjectURL(data)
+      const anchor = document.createElement('a')
+      anchor.href = downloadUrl
+      anchor.download = name
+      anchor.click()
+      window.URL.revokeObjectURL(data)
+    })
 }
 
 /**
@@ -80,12 +80,12 @@ export function downloadImageAndPdf(url, name) {
  * @param {*} url
  * @param {*} name
  */
-export function downloadFile(url, name) {
-  const fileType = getFileTypeByUrl(url);
+export function downloadFile (url, name) {
+  const fileType = getFileTypeByUrl(url)
 
   if (/pdf|image/.test(fileType)) {
-    downloadImageAndPdf(url, name);
+    downloadImageAndPdf(url, name)
   } else {
-    window.open(url);
+    window.open(url)
   }
 }

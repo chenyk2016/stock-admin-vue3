@@ -1,10 +1,11 @@
+/* eslint-disable */
 /**
  * @Author: San Feng
  * @Date: 2019/3/11 14:41
  * @Description: 格式化
  */
 
-const fmt = {};
+const fmt = {}
 
 /**
  * 日期
@@ -13,25 +14,25 @@ const fmt = {};
  * @returns {*}
  */
 fmt.date = function (v, layout) {
-  if (!v) return '';
-  if (!layout) layout = 'yyyy-MM-dd';
+  if (!v) return ''
+  if (!layout) layout = 'yyyy-MM-dd'
 
   // 不同输入类型
-  let date = v;
+  let date = v
   switch (typeof date) {
     case 'string':
-      date = new Date(date.replace(/-/, '/'));
-      break;
+      date = new Date(date.replace(/-/, '/'))
+      break
     case 'number':
-      date = new Date(date);
-      break;
-    default: ''
-      break;
+      date = new Date(date)
+      break
+    default:
+      break
   }
-  if (!(date instanceof Date)) return '';
+  if (!(date instanceof Date)) return ''
 
   // 格式化
-  let map = {
+  const map = {
     yyyy: date.getFullYear(),
     M: date.getMonth() + 1,
     d: date.getDate(),
@@ -42,11 +43,11 @@ fmt.date = function (v, layout) {
     dd: (`${date.getDate() + 100}`).substr(1),
     HH: (`${date.getHours() + 100}`).substr(1),
     mm: (`${date.getMinutes() + 100}`).substr(1),
-    ss: (`${date.getSeconds() + 100}`).substr(1),
-  };
+    ss: (`${date.getSeconds() + 100}`).substr(1)
+  }
 
-  return layout.replace(/(yyyy|MM?|dd?|HH?|ss?|mm?)/g, s => map[s]);
-};
+  return layout.replace(/(yyyy|MM?|dd?|HH?|ss?|mm?)/g, s => map[s])
+}
 
 /**
  * 转为逝去时间 如：几分、时、天前
@@ -54,18 +55,18 @@ fmt.date = function (v, layout) {
  * @return str
  */
 fmt.passedTime = function (v) {
-  if (typeof v !== 'number') return '';
-  let seconds = parseInt((Date.now() - v) / 1000);
+  if (typeof v !== 'number') return ''
+  const seconds = parseInt((Date.now() - v) / 1000)
 
   if (seconds < 60) {
-    return `${seconds}刚刚`;
+    return `${seconds}刚刚`
   } if (seconds < 3600) {
-    return `${parseInt(seconds / 60)}分钟前`;
+    return `${parseInt(seconds / 60)}分钟前`
   } if (seconds < 86400) {
-    return `${parseInt(seconds / 3600)}小时前`;
+    return `${parseInt(seconds / 3600)}小时前`
   }
-  return `${parseInt(seconds / 86400)}天前`;
-};
+  return `${parseInt(seconds / 86400)}天前`
+}
 
 /**
  * 数字
@@ -74,11 +75,11 @@ fmt.passedTime = function (v) {
  * @returns {string} 千分位
  */
 fmt.number = function (v, n) {
-  if (typeof v !== 'number' || Number.isNaN(v)) return '-';
-  n = typeof n === 'undefined' ? 2 : Math.abs(n);
+  if (typeof v !== 'number' || Number.isNaN(v)) return '-'
+  n = typeof n === 'undefined' ? 2 : Math.abs(n)
 
-  return v.toFixed(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-};
+  return v.toFixed(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
 
 /**
  * 数字转为百分比格式
@@ -87,9 +88,9 @@ fmt.number = function (v, n) {
  * @return str
  */
 fmt.percent = function (v, n) {
-  if (v === null || Object.is(Number(v), NaN)) return '-';
-  return `${fmt.number(v * 100, n)}%`;
-};
+  if (v === null || Object.is(Number(v), NaN)) return '-'
+  return `${fmt.number(v * 100, n)}%`
+}
 
 /**
  * 计算计算两数环比值
@@ -99,12 +100,12 @@ fmt.percent = function (v, n) {
  * @return string
  */
 fmt.increase = function (now, old, n) {
-  if (+old === 0 || now === '-' || old === '-') return '-';
-  if (now === old) return '0';
+  if (+old === 0 || now === '-' || old === '-') return '-'
+  if (now === old) return '0'
 
-  let percent = Math.abs((now - old) / old);
-  return `${fmt.number(percent * 100, n)}%`;
-};
+  const percent = Math.abs((now - old) / old)
+  return `${fmt.number(percent * 100, n)}%`
+}
 
 /**
  * 货币
@@ -114,9 +115,9 @@ fmt.increase = function (now, old, n) {
  * @returns {string}
  */
 fmt.money = function (v, n, symbol) {
-  if (typeof v !== 'number') return '-';
-  return (symbol || '¥') + fmt.number(v, n);
-};
+  if (typeof v !== 'number') return '-'
+  return (symbol || '¥') + fmt.number(v, n)
+}
 
 /**
  * 数字转文件大小格式
@@ -125,24 +126,24 @@ fmt.money = function (v, n, symbol) {
  * @return str
  */
 fmt.filesize = function (v, n) {
-  if (typeof v !== 'number') return '';
+  if (typeof v !== 'number') return ''
 
   if (v < 1000) {
-    return `${fmt.number(v, n)} B`;
+    return `${fmt.number(v, n)} B`
   } if (v < 1024 * 1000) {
-    return `${fmt.number(v / 1024, n)} K`;
+    return `${fmt.number(v / 1024, n)} K`
   } if (v < 1024 * 1024 * 1000) {
-    return `${fmt.number(v / (1024 * 1024), n)} M`;
+    return `${fmt.number(v / (1024 * 1024), n)} M`
   } if (v < 1024 * 1024 * 1024 * 1000) {
-    return `${fmt.number(v / (1024 * 1024 * 1024), n)} G`;
+    return `${fmt.number(v / (1024 * 1024 * 1024), n)} G`
   } if (v < 1024 * 1024 * 1024 * 1024 * 1000) {
-    return `${fmt.number(v / (1024 * 1024 * 1024 * 1024), n)} T`;
+    return `${fmt.number(v / (1024 * 1024 * 1024 * 1024), n)} T`
   } if (v < 1024 * 1024 * 1024 * 1024 * 1024 * 1000) {
-    return `${fmt.number(v / (1024 * 1024 * 1024 * 1024 * 1024), n)} P`;
+    return `${fmt.number(v / (1024 * 1024 * 1024 * 1024 * 1024), n)} P`
   }
 
-  return '';
-};
+  return ''
+}
 
 /**
  * 首字母大写
@@ -150,13 +151,13 @@ fmt.filesize = function (v, n) {
  * @return str
  */
 fmt.cap = function (v) {
-  if (typeof v !== 'string') return '';
+  if (typeof v !== 'string') return ''
 
-  let cap = v.substr(0, 1).toLocaleUpperCase();
-  let str = v.substring(1);
+  const cap = v.substr(0, 1).toLocaleUpperCase()
+  const str = v.substring(1)
 
-  return cap + str;
-};
+  return cap + str
+}
 
 /**
  * 全部字母大写
@@ -164,9 +165,9 @@ fmt.cap = function (v) {
  * @return str
  */
 fmt.upper = function (v) {
-  if (typeof v !== 'string') return '';
-  return v.toUpperCase();
-};
+  if (typeof v !== 'string') return ''
+  return v.toUpperCase()
+}
 
 /**
  * 全部字母小写
@@ -174,9 +175,9 @@ fmt.upper = function (v) {
  * @return str
  */
 fmt.lower = function (v) {
-  if (typeof v !== 'string') return '';
-  return v.toLowerCase();
-};
+  if (typeof v !== 'string') return ''
+  return v.toLowerCase()
+}
 
 /**
  * 修剪字符串
@@ -185,13 +186,13 @@ fmt.lower = function (v) {
  * @return str
  */
 fmt.trim = function (v, char) {
-  if (typeof v !== 'string') v = `${v}`;
+  if (typeof v !== 'string') v = `${v}`
 
-  if (!char) char = '\\s';
-  let regExp = new RegExp(`(^${char}*)|(${char}*$)`, 'g');
+  if (!char) char = '\\s'
+  const regExp = new RegExp(`(^${char}*)|(${char}*$)`, 'g')
 
-  return v.replace(regExp, '');
-};
+  return v.replace(regExp, '')
+}
 
 /**
  * 左边修剪字符串
@@ -200,13 +201,13 @@ fmt.trim = function (v, char) {
  * @return str
  */
 fmt.ltrim = function (v, char) {
-  if (typeof v !== 'string') v = `${v}`;
+  if (typeof v !== 'string') v = `${v}`
 
-  if (!char) char = '\\s';
-  let regExp = new RegExp(`^${char}*`, 'g');
+  if (!char) char = '\\s'
+  const regExp = new RegExp(`^${char}*`, 'g')
 
-  return v.replace(regExp, '');
-};
+  return v.replace(regExp, '')
+}
 
 /**
  * 右边修剪字符串
@@ -215,13 +216,13 @@ fmt.ltrim = function (v, char) {
  * @return str
  */
 fmt.rtrim = function (v, char) {
-  if (typeof v !== 'string') v = `${v}`;
+  if (typeof v !== 'string') v = `${v}`
 
-  if (!char) char = '\\s';
-  let regExp = new RegExp(`${char}*$`, 'g');
+  if (!char) char = '\\s'
+  const regExp = new RegExp(`${char}*$`, 'g')
 
-  return v.replace(regExp, '');
-};
+  return v.replace(regExp, '')
+}
 
 /**
  * 包裹字符串
@@ -231,13 +232,13 @@ fmt.rtrim = function (v, char) {
  * @return str
  */
 fmt.wrap = function (v, leftChar, rightChar) {
-  if (typeof v !== 'string') v = `${v}`;
-  if (!v) return v;
-  if (!leftChar) leftChar = '(';
-  if (!rightChar) rightChar = ')';
+  if (typeof v !== 'string') v = `${v}`
+  if (!v) return v
+  if (!leftChar) leftChar = '('
+  if (!rightChar) rightChar = ')'
 
-  return leftChar + v + rightChar;
-};
+  return leftChar + v + rightChar
+}
 
 /**
  * 字符串截取两头
@@ -247,16 +248,16 @@ fmt.wrap = function (v, leftChar, rightChar) {
  * @returns str
  */
 fmt.thin = function (v, num, ellipsis) {
-  if (typeof v !== 'string') return v;
-  if (v.length <= num) return v;
-  if (!ellipsis) ellipsis = '...';
+  if (typeof v !== 'string') return v
+  if (v.length <= num) return v
+  if (!ellipsis) ellipsis = '...'
 
-  let str = v.substr(0, parseInt(num / 2));
-  str += ellipsis;
-  str += v.substr(parseInt(-num / 2));
+  let str = v.substr(0, parseInt(num / 2))
+  str += ellipsis
+  str += v.substr(parseInt(-num / 2))
 
-  return str;
-};
+  return str
+}
 
 /**
  * 推币转为元
@@ -264,8 +265,8 @@ fmt.thin = function (v, num, ellipsis) {
  * @returns float
  */
 fmt.tuibiToYuan = function (tuibi) {
-  return Math.round(tuibi) / 100;
-};
+  return Math.round(tuibi) / 100
+}
 
 /**
  * 数字转为百分比格式
@@ -274,13 +275,13 @@ fmt.tuibiToYuan = function (tuibi) {
  */
 fmt.percent_symbol = function (v) {
   if (v > 0) {
-    return `+${v}%`;
+    return `+${v}%`
   } else if (v < 0) {
-    return `${v}%`;
+    return `${v}%`
   } else {
-    return '0.0%';
+    return '0.0%'
   }
-};
+}
 
-export default fmt;
-export { fmt };
+export default fmt
+export { fmt }

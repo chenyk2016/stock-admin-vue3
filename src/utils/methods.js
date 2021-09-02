@@ -1,3 +1,4 @@
+/* eslint-disable */
 import fmt from './fmt'
 
 export const count = (obj) => {
@@ -7,7 +8,7 @@ export const count = (obj) => {
   } else if (objType === 'object') {
     let objLen = 0
     for (const k in obj) {
-      // eslint-disable-next-line no-prototype-builtins
+
       if (obj.hasOwnProperty(k)) {
         ++objLen
       }
@@ -44,7 +45,7 @@ export const handleGreyEnv = (env) => {
  */
 export function fmtToFilters (Vue) {
   for (const k in fmt) {
-    // eslint-disable-next-line no-prototype-builtins
+
     if (!fmt.hasOwnProperty(k)) continue
     Vue.filter(k, fmt[k])
   }
@@ -130,6 +131,6 @@ export function postMessage (event, payload = {}) {
       window.postMessage(JSON.stringify(msg), '*')
     }
   } catch (err) {
-    console.log(err); // eslint-disable-line
+    console.log(err); /* eslint-disable */-line
   }
 }

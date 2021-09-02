@@ -1,10 +1,11 @@
+/* eslint-disable */
 /**
  * @Author: San Feng
  * @Date: 2019/3/11 14:41
  * @Description: 元素相关
  */
 
-const el = {};
+const el = {}
 
 /**
  * 判断元素是否为另一个元素的子元素
@@ -14,12 +15,12 @@ const el = {};
  */
 el.isChildOf = function ($el, $parent) {
   while ($el && $el.tagName.toUpperCase() !== 'BODY') {
-    if ($el === $parent) return true;
-    $el = $el.parentNode;
+    if ($el === $parent) return true
+    $el = $el.parentNode
   }
 
-  return false;
-};
+  return false
+}
 
 /**
  * 判断元素是否为另一个元素的子元素
@@ -29,11 +30,11 @@ el.isChildOf = function ($el, $parent) {
  */
 el.getClosestByClassName = function ($el, className) {
   while ($el && !(`${$el.className}`).split(' ').includes(className)) {
-    $el = $el.parentNode;
+    $el = $el.parentNode
   }
 
-  return $el;
-};
+  return $el
+}
 
 /**
  * 获取元素相对于窗口的位置, 元素相对于窗口绝对定位，不滚动
@@ -42,30 +43,30 @@ el.getClosestByClassName = function ($el, className) {
  * @returns {Object} left, top
  */
 el.getElementClientOffset = function (element, outDocumentFlow) {
-  let actualTop = element.offsetTop;
-  let current = element.offsetParent;
-  let actualLeft = element.offsetLeft;
-  let elementScrollLeft = document.documentElement.scrollLeft;
-  let elementScrollTop = document.documentElement.scrollTop;
+  let actualTop = element.offsetTop
+  let current = element.offsetParent
+  let actualLeft = element.offsetLeft
+  const elementScrollLeft = document.documentElement.scrollLeft
+  const elementScrollTop = document.documentElement.scrollTop
   let position = {}
 
   while (current !== null) {
-    actualTop += current.offsetTop - current.scrollTop;
-    actualLeft += current.offsetLeft - current.scrollLeft;
+    actualTop += current.offsetTop - current.scrollTop
+    actualLeft += current.offsetLeft - current.scrollLeft
     // console.log(current.offsetTop, current.scrollTop, current.offsetLeft, current.scrollLeft)
-    current = current.offsetParent;
+    current = current.offsetParent
   }
 
   // 脱离文档流，需要加上多减去的document的滚动
   if (outDocumentFlow) {
     position = {
       left: actualLeft + elementScrollLeft,
-      top: actualTop + elementScrollTop,
+      top: actualTop + elementScrollTop
     }
   } else {
     position = {
       left: actualLeft,
-      top: actualTop,
+      top: actualTop
     }
   }
 
@@ -74,5 +75,5 @@ el.getElementClientOffset = function (element, outDocumentFlow) {
   return position
 }
 
-export default el;
-export { el };
+export default el
+export { el }
