@@ -51,10 +51,10 @@
 </template>
 
 <script>
-import AddButton from './add-button'
+import AddButton from '../home-all/add-button'
 import { reactive } from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { columns, columnsName, columnsConf } from './config'
+import { columns, columnsName, columnsConf } from '../home-all/config'
 
 export default {
   name: 'Home',

@@ -3,7 +3,7 @@
     <a-button @click="addClick">增加</a-button>
     <a-modal
       v-model:visible="visible"
-      title="Basic Modal"
+      title="新建"
       @ok="handleOk"
       >
       <VForm v-model:value="form" :rules="rules" :label-width="100" />
@@ -13,7 +13,6 @@
 
 <script>
 import { VForm } from 'components/cc/v-form'
-import { reactive } from 'vue'
 import { formRules } from '../config'
 
 export default {
@@ -21,7 +20,7 @@ export default {
   data () {
     return {
       visible: false,
-      form: reactive({}),
+      form: {},
       rules: formRules
     }
   },
@@ -34,6 +33,7 @@ export default {
       window.$request.post('/self/add', data).then(res => {
         this.$message.success('提交成功')
         this.visible = false
+        this.form = {}
         this.$emit('on-success')
       })
     }

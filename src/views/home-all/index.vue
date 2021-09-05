@@ -2,7 +2,7 @@
   <div class="home-page">
     <div class="header">
       <span>全部关注</span>
-      <AddButton class="add-btn" @on-success="getData" />
+      <AddButton class="add-btn" @on-success="getList" />
     </div>
     <div class="group">
       <div>
@@ -25,6 +25,9 @@
               />
             </div>
             <template v-else>
+              <template v-if="col === 'code'">
+                <router-link :to="`https://xueqiu.com/S/${test}`" target="_blank"></router-link>
+              </template>
               <template v-if="col === 'short_name'">
                 <div>
                   <MoreInfo :data="record">
@@ -62,7 +65,7 @@
 </template>
 
 <script>
-import AddButton from '../home/add-button'
+import AddButton from './add-button'
 import { reactive } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { columns, columnsName, columnsConf } from './config'
@@ -83,13 +86,37 @@ export default {
     }
   },
   computed: {
+    groupId () {
+      return this.$route.params && this.$route.params.id
+    }
+  },
+  watch: {
+    groupId: {
+      handler () {
+        this.getList()
+      },
+      immediate: true
+    }
   },
   created () {
-    this.getData()
   },
   methods: {
+    getList () {
+      const groupId = this.groupId
+      if (groupId) {
+        this.getQueryData()
+      } else {
+        this.getData(groupId)
+      };
+    },
     getData () {
       window.$request.get('/self/all').then(res => {
+        this.groupData = res.data
+      })
+    },
+    getQueryData () {
+      // const groupId = this.groupId
+      window.$request.get('/self/ST').then(res => {
         this.groupData = res.data
       })
     },
